@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Dishes{% endblock %}
+
+{% block body %}
+
+    <h1>Изменить блюдо</h1>
+
+    {{ include('dishes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_dishes_index') }}">Назад</a>
+
+    {{ include('dishes/_delete_form.html.twig') }}
+{% endblock %}

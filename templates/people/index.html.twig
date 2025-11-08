@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}People index{% endblock %}
+
+{% block body %}
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+</style>
+    <h1>People index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Имя</th>
+                <th>Номер</th> 
+                 <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.name }}</td>
+                <td>{{ person.phoneNumber }}</td> 
+                <td>    
+                    <a href="{{ path('app_people_show', {'id': person.id}) }}">Показать</a>
+                    <a href="{{ path('app_people_edit', {'id': person.id}) }}">Изменить</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_people_new') }}">Создать</a>
+{% endblock %}

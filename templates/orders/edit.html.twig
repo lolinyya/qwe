@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Orders{% endblock %}
+
+{% block body %}
+    <h1>Изменить заказ</h1>
+
+    {{ include('orders/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_orders_index') }}">Назад</a>
+
+    {{ include('orders/_delete_form.html.twig') }}
+{% endblock %}

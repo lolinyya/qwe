@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dishes index{% endblock %}
+
+{% block body %}
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+</style>
+<h1>Меню</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Название блюда</th>
+            <th>Цена</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dish in dishes %}
+        <tr>
+            <td>{{ dish.id }}</td>
+            <td>{{ dish.dname }}</td>
+            <td>{{ dish.price }}</td>
+            <td>
+                <a href="{{ path('app_dishes_show', {'id': dish.id}) }}">Показать</a>
+                <a href="{{ path('app_dishes_edit', {'id': dish.id}) }}">Изменить</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_dishes_new') }}">Создать</a>
+{% endblock %}

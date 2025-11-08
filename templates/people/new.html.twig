@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New People{% endblock %}
+
+{% block body %}
+    <h1>Добавить человека</h1>
+
+    {{ include('people/_form.html.twig') }}
+
+    <a href="{{ path('app_people_index') }}">Назад</a>
+{% endblock %}

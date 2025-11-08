@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}People{% endblock %}
+
+{% block body %}
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+</style>
+<h1>Человек</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ person.id }}</td>
+        </tr>
+        <tr>
+            <th>Имя</th>
+            <td>{{ person.name }}</td>
+        </tr>
+        <tr>
+            <th>Номер</th>
+            <td>{{ person.phoneNumber }}</td>
+
+        </tr>
+        <tr>
+            <th>Действие</th>
+
+            <td><a href="{{ path('app_people_index') }}">Назад</a>
+           <a href="{{ path('app_people_edit', {'id': person.id}) }}">Изменить</a></td>
+
+        </tr>
+
+    </tbody>
+</table> 
+
+{{ include('people/_delete_form.html.twig') }}
+{% endblock %}
