@@ -30,28 +30,36 @@
         background-color: rgba(0, 0, 0, 0.075);
     }
 </style>
-    <h1>Блюда</h1>
+<h1>Блюда</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ dish.id }}</td>
-            </tr>
-            <tr>
-                <th>Название блюда</th>
-                <td>{{ dish.dname }}</td>
-            </tr>
-            <tr>
-                <th>Цена</th>
-                <td>{{ dish.price }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ dish.id }}</td>
+        </tr>
+        <tr>
+            <th>Название блюда</th>
+            <td>{{ dish.dname }}</td>
+        </tr>
+        <tr>
+            <th>Цена</th>
+            <td>{{ dish.price }}</td>
+        </tr>
+        <tr>
+            {% if dishes.imageName %}
+            <img src="{{ vich_uploader_asset(dishes, 'imageFile') | imagine_filter('thumb_small') }}"
+                alt="{{ dishes.name }}" class="img-fluid rounded">
+            {% else %}
+            <img src="{{ asset('images/placeholder-dishes.png') }}" alt="Нет фото" class="img-fluid rounded">
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_dishes_index') }}">Назад</a>
+<a href="{{ path('app_dishes_index') }}">Назад</a>
 
-    <a href="{{ path('app_dishes_edit', {'id': dish.id}) }}">Изменить</a>
+<a href="{{ path('app_dishes_edit', {'id': dish.id}) }}">Изменить</a>
 
-    {{ include('dishes/_delete_form.html.twig') }}
+{{ include('dishes/_delete_form.html.twig') }}
 {% endblock %}

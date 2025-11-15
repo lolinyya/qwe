@@ -13,6 +13,13 @@
 
 <p style="font-weight:bold; font-size:1.1em;">Итого: {{ order.totalPrice }} руб.</p>
 
+<h5>Документ:</h5>
+{% if order.documentName %}
+    <a href="{{ vich_uploader_asset(orders) }}" target="_blank" class="btn btn-info">Скачать {{ orders.documentName }}</a>
+{% else %}
+    <p><em>Нет документа</em></p>
+{% endif %}
+
 <div style="margin-top:20px;">
     <a href="{{ path('app_orders_edit', {id: order.id}) }}" style="color:#b132d5; margin-right:15px;">Редактировать</a>
     <a href="{{ path('app_orders_index') }}" style="color:#6c757d;">Назад к заказам</a>

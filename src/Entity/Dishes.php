@@ -7,8 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
 
 #[ORM\Entity(repositoryClass: DishesRepository::class)]
+#[Vich\Uploadable]
 class Dishes
 {
     #[ORM\Id]
@@ -17,7 +22,7 @@ class Dishes
     private ?int $id = null;
 
     #[ORM\Column(length: 120)]
-     #[Assert\NotBlank(message: 'Имя обязательно')]
+    #[Assert\NotBlank(message: 'Имя обязательно')]
     private ?string $dname = null;
 
     #[ORM\Column]
@@ -28,6 +33,13 @@ class Dishes
      */
     #[ORM\ManyToMany(targetEntity: Orders::class, mappedBy: 'Dishes')]
     private Collection $Orders;
+
+    #[Vich\UploadableField(mapping: 'dish_image', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $imageName = null;
+
 
     public function __construct()
     {
@@ -63,7 +75,7 @@ class Dishes
         return $this;
     }
 
-      public function __toString(): string
+    public function __toString(): string
     {
         return $this->dname . ' — ' . $this->price . ' руб.';
     }
@@ -93,5 +105,22 @@ class Dishes
         }
 
         return $this;
+    }
+
+    public function setImageFile(?File $file = null): void
+    {
+        $this->imageFile = $file;
+    }
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+    public function setImageName(?string $name): void
+    {
+        $this->imageName = $name;
     }
 }

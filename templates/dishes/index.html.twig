@@ -47,6 +47,12 @@
             <td>{{ dish.id }}</td>
             <td>{{ dish.dname }}</td>
             <td>{{ dish.price }}</td>
+            {% if dish.imageName %}
+            <p><strong>Фото:</strong> <a href="{{ vich_uploader_asset(dishes) }}" target="_blank">{{ dishes.imageName
+                    }}</a></p>
+            {% else %}
+            <p><em>Фото не прикреплено</em></p>
+            {% endif %}
             <td>
                 <a href="{{ path('app_dishes_show', {'id': dish.id}) }}">Показать</a>
                 <a href="{{ path('app_dishes_edit', {'id': dish.id}) }}">Изменить</a>
