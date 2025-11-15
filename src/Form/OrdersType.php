@@ -12,24 +12,23 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class OrdersType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('customer', EntityType::class, ['class' => \App\Entity\People::class, 'choice_label' => 'name'])
-            ->add('dishes', EntityType::class, ['class' => \App\Entity\Dishes::class, 'choice_label' => 'name', 'multiple' => true, 'expanded' => true])
-            ->add('documentFile', VichFileType::class, [
-                'label' => 'Документ',
-                'required' => false,
-                'allow_delete' => true,
-                'delete_label' => 'Удалить',
-                'download_uri' => true,
-                'constraints' => [new File([
-                    'maxSize' => '10m',
-                    'mimeTypes' => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'image/jpeg', 'image/png'],
-                ])],
+          $builder
+            ->add('people', EntityType::class, [
+                'class' => People::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Выберите клиента',
+                'label' => 'Клиент'
+            ])
+            ->add('dishes', EntityType::class, [
+                'class' => Dishes::class,
+                'choice_label' => 'dname',
+                'label' => 'Блюда',
+                'multiple' => true,
+                'expanded' => true,
             ]);
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

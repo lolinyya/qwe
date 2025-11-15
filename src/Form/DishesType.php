@@ -8,37 +8,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\DishImageType;
 
 class DishesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dname', TextType::class, [
-                'label' => 'Название блюда',
-                'attr' => ['class' => 'form-control']
-            ])
-            ->add('price', IntegerType::class, [
-                'label' => 'Цена',
-                'attr' => ['class' => 'form-control']
-            ])
-            ->add('description', TextareaType::class, [
-                'label' => 'Описание',
-                'required' => false,
-                'attr' => ['class' => 'form-control', 'rows' => 3]
-            ])
-            ->add('images', CollectionType::class, [
-                'entry_type' => DishImageType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'label' => 'Изображения блюда',
-                'attr' => ['class' => 'images-collection']
-            ]);
+            ->add('dname', TextType::class, ['label' => 'Название'])
+            ->add('price', IntegerType::class, ['label' => 'Цена (руб.)']);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Orders;
-use App\Entity\OrdersEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 #[ORM\Entity(repositoryClass: DishesRepository::class)]
+#[Vich\Uploadable]
 class Dishes
 {
     #[ORM\Id]
@@ -18,37 +22,26 @@ class Dishes
 
     #[ORM\Column(length: 120)]
     #[Assert\NotBlank(message: 'Имя обязательно')]
-    #[Assert\Length(
-        max: 120,
-        maxMessage: 'Название не может превышать {{ limit }} символов'
-    )]
     private ?string $dname = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Цена обязательна')]
-    #[Assert\Positive(message: 'Цена должна быть положительным числом')]
     private ?int $price = null;
 
     /**
      * @var Collection<int, Orders>
      */
-    #[ORM\ManyToMany(targetEntity: Orders::class, mappedBy: 'dishes')]
-    private Collection $orders;
+    #[ORM\ManyToMany(targetEntity: Orders::class, mappedBy: 'Dishes')]
+    private Collection $Orders;
 
-    /**
-     * @var Collection<int, DishImage>
-     */
-    #[ORM\OneToMany(targetEntity: DishImage::class, mappedBy: 'dish', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['sortOrder' => 'ASC'])]
-    private Collection $images;
+    #[Vich\UploadableField(mapping: 'dish_image', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $imageName = null;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
-        $this->images = new ArrayCollection();
+        $this->Orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,6 +57,7 @@ class Dishes
     public function setDname(string $dname): static
     {
         $this->dname = $dname;
+
         return $this;
     }
 
@@ -75,6 +69,7 @@ class Dishes
     public function setPrice(int $price): static
     {
         $this->price = $price;
+
         return $this;
     }
 
@@ -88,66 +83,42 @@ class Dishes
      */
     public function getOrders(): Collection
     {
-        return $this->orders;
+        return $this->Orders;
     }
 
     public function addOrder(Orders $order): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
+        if (!$this->Orders->contains($order)) {
+            $this->Orders->add($order);
             $order->addDish($this);
         }
+
         return $this;
     }
 
     public function removeOrder(Orders $order): static
     {
-        if ($this->orders->removeElement($order)) {
+        if ($this->Orders->removeElement($order)) {
             $order->removeDish($this);
         }
+
         return $this;
     }
 
-    /**
-     * @return Collection<int, DishImage>
-     */
-    public function getImages(): Collection
+    public function setImageFile(?File $file = null): void
     {
-        return $this->images;
+        $this->imageFile = $file;
     }
-
-    public function addImage(DishImage $image): static
+    public function getImageFile(): ?File
     {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setDish($this);
-        }
-        return $this;
+        return $this->imageFile;
     }
-
-    public function removeImage(DishImage $image): static
+    public function getImageName(): ?string
     {
-        if ($this->images->removeElement($image)) {
-            if ($image->getDish() === $this) {
-                $image->setDish(null);
-            }
-        }
-        return $this;
+        return $this->imageName;
     }
-
-    public function getDescription(): ?string
+    public function setImageName(?string $name): void
     {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function getMainImage(): ?DishImage
-    {
-        return $this->images->first() ?: null;
+        $this->imageName = $name;
     }
 }

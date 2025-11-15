@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Orders;
-use App\Entity\OrdersEntity;
 use App\Form\OrdersType;
 use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -80,7 +79,7 @@ final class OrdersController extends AbstractController
         return $this->redirectToRoute('app_orders_index', [], Response::HTTP_SEE_OTHER);
     }
 
-     #[Route('/{id}/delete-document', name: 'app_orders_delete_document', methods: ['POST'])]
+     #[Route('/{id}/delete-document', name: 'app_order_delete_document', methods: ['POST'])]
     public function deleteDocument(Request $request, OrdersEntity $order, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete-document' . $order->getId(), $request->request->get('_token'))) {
@@ -88,6 +87,6 @@ final class OrdersController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Документ удалён');
         }
-        return $this->redirectToRoute('app_orders_edit', ['id' => $order->getId()]);
+        return $this->redirectToRoute('app_order_edit', ['id' => $order->getId()]);
     }
 }
